@@ -10,7 +10,10 @@ import 'domain/use_case/authentication_usecase.dart';
 import 'ui/central.dart';
 import 'ui/controller/authentication_controller.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Asegura que los bindings de widgets están inicializados.
+
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(
       showColors: true,
@@ -21,6 +24,11 @@ void main() {
   Get.put<IRepository>(Repository(Get.find()));
   Get.put(AuthenticationUseCase(Get.find()));
   Get.put(AuthenticationController());
+
+  // Verificar el estado de login antes de iniciar la aplicación
+  AuthenticationController authController = Get.find();
+  await authController.checkLoginStatus();
+
   runApp(const MyApp());
 }
 

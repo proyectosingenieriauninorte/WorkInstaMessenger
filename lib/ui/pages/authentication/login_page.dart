@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/authentication_controller.dart';
 import 'signup.dart';
 
@@ -16,11 +17,16 @@ class _LoginPageState extends State<LoginPage> {
   final controllerEmail = TextEditingController(text: 'a@a.com');
   final controllerPassword = TextEditingController(text: '123456');
   AuthenticationController authenticationController = Get.find();
+  bool _stayLoggedIn = false;
 
   _login(theEmail, thePassword) async {
     logInfo('_login $theEmail $thePassword');
     try {
       await authenticationController.login(theEmail, thePassword);
+      if (_stayLoggedIn) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+      }
     } catch (err) {
       Get.snackbar(
         "Login",
@@ -86,9 +92,17 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 20,
                     ),
+                    CheckboxListTile(
+                      title: const Text('Mantenerme conectado'),
+                      value: _stayLoggedIn,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _stayLoggedIn = value!;
+                        });
+                      },
+                    ),
                     OutlinedButton(
                         onPressed: () async {
-                          // this line dismiss the keyboard by taking away the focus of the TextFormField and giving it to an unused
                           FocusScope.of(context).requestFocus(FocusNode());
                           final form = _formKey.currentState;
                           form!.save();
