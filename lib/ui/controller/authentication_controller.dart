@@ -15,8 +15,6 @@ class AuthenticationController extends GetxController {
     var rta = await authentication.login(email, password);
     if (rta) {
       logged.value = true;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true);
     }
     return rta;
   }
