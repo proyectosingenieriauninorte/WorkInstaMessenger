@@ -33,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
         err.toString(),
         icon: const Icon(Icons.person, color: Colors.red),
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.shade100,
+        margin: const EdgeInsets.all(10),
       );
     }
   }
