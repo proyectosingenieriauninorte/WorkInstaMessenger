@@ -25,10 +25,6 @@ void main() async {
   Get.put(AuthenticationUseCase(Get.find()));
   Get.put(AuthenticationController());
 
-  // Verificar el estado de login antes de iniciar la aplicación
-  AuthenticationController authController = Get.find();
-  await authController.checkLoginStatus();
-
   runApp(const MyApp());
 }
 
