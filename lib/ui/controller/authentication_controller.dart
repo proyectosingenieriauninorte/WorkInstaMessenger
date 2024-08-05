@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:loggy/loggy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../domain/use_case/authentication_usecase.dart';
 
 class AuthenticationController extends GetxController {
+  final LocalAuthentication auth = LocalAuthentication();
   final logged = false.obs;
 
   bool get isLogged => logged.value;
@@ -26,13 +29,34 @@ class AuthenticationController extends GetxController {
 
   Future<void> logOut() async {
     logged.value = false;
-    // Eliminar estado de sesión
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('isLoggedIn');
   }
 
   Future<void> checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    logged.value = prefs.getBool('isLoggedIn') ?? false;
+    bool wasLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (wasLoggedIn) {
+      bool didAuthenticate = await authenticateWithBiometrics();
+      logged.value = didAuthenticate;
+    } else {
+      logged.value = false;
+    }
+  }
+
+  Future<bool> authenticateWithBiometrics() async {
+    try {
+      bool authenticated = await auth.authenticate(
+        localizedReason: 'Please authenticate to continue',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+        ),
+      );
+      return authenticated;
+    } catch (e) {
+      logError('Biometric authentication failed: $e');
+      return false;
+    }
   }
 }

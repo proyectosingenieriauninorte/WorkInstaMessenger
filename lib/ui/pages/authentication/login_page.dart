@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:work_insta_messenger/ui/pages/content/content_page.dart';
 import '../../controller/authentication_controller.dart';
 import 'signup.dart';
 
@@ -19,6 +20,22 @@ class _LoginPageState extends State<LoginPage> {
   AuthenticationController authenticationController = Get.find();
   bool _stayLoggedIn = false;
 
+  // Verificar el estado de login antes de iniciar la aplicación
+  AuthenticationController authController = Get.find();
+  
+  @override
+  void initState() {
+    super.initState();
+    _checkLogin();
+  }
+
+  Future<void> _checkLogin() async {
+    await authController.checkLoginStatus();
+    if (authController.isLogged) {
+      const ContentPage();
+    }
+  }
+
   _login(theEmail, thePassword) async {
     logInfo('_login $theEmail $thePassword');
     try {
@@ -33,6 +50,8 @@ class _LoginPageState extends State<LoginPage> {
         err.toString(),
         icon: const Icon(Icons.person, color: Colors.red),
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.shade100,
+        margin: const EdgeInsets.all(10),
       );
     }
   }
