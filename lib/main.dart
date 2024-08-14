@@ -7,12 +7,12 @@ import 'data/datasources/remote/authentication/i_authentication_source.dart';
 import 'data/repositories/repository.dart';
 import 'domain/repositories/i_repository.dart';
 import 'domain/use_case/authentication_usecase.dart';
-import 'ui/central.dart';
 import 'ui/controller/authentication_controller.dart';
 
+import 'package:work_insta_messenger/config/router/app_router.dart';
+
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Asegura que los bindings de widgets están inicializados.
+  WidgetsFlutterBinding.ensureInitialized();
 
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(
@@ -33,12 +33,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Central(),
+      routerConfig: router,
     );
   }
 }

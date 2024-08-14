@@ -6,6 +6,7 @@ import 'controller/authentication_controller.dart';
 import 'pages/authentication/login_page.dart';
 
 class Central extends StatelessWidget {
+  static const name = "central_screen";
   const Central({super.key});
 
   @override
