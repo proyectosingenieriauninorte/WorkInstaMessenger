@@ -13,6 +13,8 @@ class AuthenticationSourceService implements IAuthenticationSource {
   final String baseUrl =
       'https://authenticationapp.mangocoast-ed120e36.eastus.azurecontainerapps.io';
   String? token;
+  AuthenticationUser?
+      _currentUser; // Variable para almacenar el usuario autenticado
 
   AuthenticationSourceService({http.Client? client})
       : httpClient = client ?? http.Client();
@@ -36,6 +38,12 @@ class AuthenticationSourceService implements IAuthenticationSource {
       logInfo(response.body);
       final data = jsonDecode(response.body);
       token = data['access_token'];
+      _currentUser = AuthenticationUser(
+        username: email,
+        firstName: data['first_name'] ?? email,
+        lastName: data['last_name'] ?? email,
+        password: password,
+      ); // Almacenar la información del usuario autenticado
       return Future.value(true);
     } else {
       logError("Got error code ${response.statusCode}");
@@ -71,6 +79,12 @@ class AuthenticationSourceService implements IAuthenticationSource {
 
   @override
   Future<bool> logOut() async {
+    _currentUser = null; // Limpiar la información del usuario autenticado
     return Future.value(true);
+  }
+
+  @override
+  AuthenticationUser? getCurrentUser() {
+    return _currentUser; // Devolver la información del usuario autenticado
   }
 }

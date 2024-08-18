@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
+import 'package:firebase_core/firebase_core.dart'; // Importa firebase_core
 
 import 'data/datasources/remote/authentication/authentication_source_service.dart';
 import 'data/datasources/remote/authentication/i_authentication_source.dart';
@@ -13,6 +14,7 @@ import 'package:work_insta_messenger/config/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); // Inicializa Firebase
 
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(

@@ -1,3 +1,5 @@
+
+
 import '../models/authentication_user.dart';
 import '../repositories/i_repository.dart';
 
@@ -17,4 +19,6 @@ class AuthenticationUseCase {
           password: password));
 
   Future<bool> logOut() async => await _repository.logOut();
+
+  AuthenticationUser? getCurrentUser() => _repository.getCurrentUser();
 }
