@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loggy/loggy.dart';
-import 'package:work_insta_messenger/domain/use_case/chat_service.dart';
+import 'package:work_insta_messenger/ui/controller/message_controllerr.dart';
 import 'package:work_insta_messenger/ui/widgets/custom_drawer.dart';
 
 import '../../controller/authentication_controller.dart';
@@ -11,7 +11,7 @@ import '../../widgets/user_tile.dart';
 class ContentPage extends StatelessWidget {
   ContentPage({super.key});
 
-  final ChatService _chatService = ChatService();
+  final MessageControllerr messageControllerr = Get.find();
 
   _logout() async {
     AuthenticationController authenticationController = Get.find();
@@ -41,7 +41,7 @@ class ContentPage extends StatelessWidget {
 
   Widget _builderUserList() {
     return StreamBuilder(
-      stream: _chatService.getUserStream(),
+      stream: messageControllerr.getUserStream(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Center(
