@@ -6,4 +6,6 @@ abstract class IRepository {
   Future<bool> signUp(AuthenticationUser user);
 
   Future<bool> logOut();
+
+  AuthenticationUser? getCurrentUser();
 }

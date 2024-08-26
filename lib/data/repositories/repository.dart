@@ -18,4 +18,9 @@ class Repository implements IRepository {
   @override
   Future<bool> signUp(AuthenticationUser user) =>
       authenticationSource.signUp(user);
+
+  @override
+  AuthenticationUser? getCurrentUser() {
+    return authenticationSource.getCurrentUser();
+  }
 }

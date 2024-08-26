@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // Verificar el estado de login antes de iniciar la aplicación
   AuthenticationController authController = Get.find();
-  
+
   @override
   void initState() {
     super.initState();
@@ -32,7 +32,10 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _checkLogin() async {
     await authController.checkLoginStatus();
     if (authController.isLogged) {
-      const ContentPage();
+      // Asegúrate de navegar a ContentPage correctamente
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => ContentPage()),
+      );
     }
   }
 

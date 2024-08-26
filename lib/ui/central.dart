@@ -6,13 +6,13 @@ import 'controller/authentication_controller.dart';
 import 'pages/authentication/login_page.dart';
 
 class Central extends StatelessWidget {
+  static const name = "central_screen";
   const Central({super.key});
 
   @override
   Widget build(BuildContext context) {
     AuthenticationController authenticationController = Get.find();
-    return Obx(() => authenticationController.isLogged
-        ? const ContentPage()
-        : const LoginPage());
+    return Obx(() =>
+        authenticationController.isLogged ? ContentPage() : const LoginPage());
   }
 }
